@@ -26,3 +26,5 @@ export const OPENAI_COMPLETION_PRESENCE_PENALTY =
 export const LINE_API_KEY = env.LINE_API_KEY || null;
 export const LINE_API_SECRET = env.LINE_API_SECRET || null;
 
+export const DISCORD_BOT_TOKEN = env.DISCORD_BOT_TOKEN || null;
+
