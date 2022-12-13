@@ -1,23 +1,19 @@
 import express from 'express';
 import Assistant from '../assistant/index.js';
-import {
-  validator,
-} from '../middleware/index.js';
-import {
-  APP_URL,
-  APP_PORT,
-  LINE_API_SECRET,
-} from '../config/index.js';
+import { validator } from '../middleware/index.js';
+import { APP_URL, APP_PORT, LINE_API_SECRET } from '../config/index.js';
 
 const assistant = new Assistant();
 
 const app = express();
 
-app.use(express.json({
-  verify: (req, res, buf) => {
-    req.rawBody = buf.toString();
-  },
-}));
+app.use(
+  express.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf.toString();
+    },
+  })
+);
 
 app.get('/', (req, res) => {
   if (APP_URL) {
@@ -44,3 +40,4 @@ if (APP_PORT) {
 }
 
 export default app;
+

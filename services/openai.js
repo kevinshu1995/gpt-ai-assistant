@@ -28,16 +28,15 @@ export const complete = ({
   maxTokens = OPENAI_COMPLETION_MAX_TOKENS,
   frequencyPenalty = OPENAI_COMPLETION_FREQUENCY_PENALTY,
   presencePenalty = OPENAI_COMPLETION_PRESENCE_PENALTY,
-  stop = [
-    ` ${PARTICIPANT_AI}:`,
-    ` ${PARTICIPANT_HUMAN}:`,
-  ],
-}) => instance.post('/v1/completions', {
-  model,
-  prompt,
-  temperature,
-  max_tokens: maxTokens,
-  frequency_penalty: frequencyPenalty,
-  presence_penalty: presencePenalty,
-  stop,
-});
+  stop = [` ${PARTICIPANT_AI}:`, ` ${PARTICIPANT_HUMAN}:`],
+}) =>
+  instance.post('/v1/completions', {
+    model,
+    prompt,
+    temperature,
+    max_tokens: maxTokens,
+    frequency_penalty: frequencyPenalty,
+    presence_penalty: presencePenalty,
+    stop,
+  });
+

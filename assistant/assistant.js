@@ -1,7 +1,4 @@
-import {
-  APP_ENV,
-  APP_DEBUG,
-} from '../config/index.js';
+import { APP_ENV, APP_DEBUG } from '../config/index.js';
 import {
   PARTICIPANT_AI,
   PARTICIPANT_HUMAN,
@@ -19,15 +16,10 @@ class Assistant {
   storage = new Storage();
 
   handleEvents(events = []) {
-    return Promise.all(events.map((event) => this.handleEvent(event)));
+    return Promise.all(events.map(event => this.handleEvent(event)));
   }
 
-  async handleEvent({
-    replyToken,
-    type,
-    source,
-    message,
-  }) {
+  async handleEvent({ replyToken, type, source, message }) {
     if (type !== EVENT_TYPE_MESSAGE) return null;
     if (message.type !== MESSAGE_TYPE_TEXT) return null;
     const prompt = this.storage.getPrompt(source.userId);
@@ -40,18 +32,22 @@ class Assistant {
       return APP_ENV === 'local' ? res : reply(res);
     } catch (err) {
       console.error(err);
-      return reply({ replyToken, messages: [{ type: message.type, text: err.message }] });
+      return reply({
+        replyToken,
+        messages: [{ type: message.type, text: err.message }],
+      });
     }
   }
 
-  async chat({
-    prompt,
-    text = '',
-  }) {
+  async chat({ prompt, text = '' }) {
     const { data } = await complete({ prompt });
     const [choice] = data.choices;
     prompt += choice.text.trim();
-    text += choice.text.replace(PARTICIPANT_AI, '').replace(':', '').replace('：', '').trim();
+    text += choice.text
+      .replace(PARTICIPANT_AI, '')
+      .replace(':', '')
+      .replace('：', '')
+      .trim();
     const res = { prompt, text };
     return choice.finish_reason === FINISH_REASON_STOP ? res : this.chat(res);
   }
@@ -62,3 +58,4 @@ class Assistant {
 }
 
 export default Assistant;
+
