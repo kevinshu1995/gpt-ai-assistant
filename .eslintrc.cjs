@@ -4,9 +4,9 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  extends: 'airbnb',
-  overrides: [
-  ],
+  extends: ['airbnb', 'prettier'],
+
+  overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
   },
@@ -16,3 +16,4 @@ module.exports = {
     'no-param-reassign': 'off',
   },
 };
+

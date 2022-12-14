@@ -1,23 +1,20 @@
 import express from 'express';
-import Assistant from '../assistant/index.js';
-import {
-  validator,
-} from '../middleware/index.js';
-import {
-  APP_URL,
-  APP_PORT,
-  LINE_API_SECRET,
-} from '../config/index.js';
+import { LineAssistant } from '../assistant/index.js';
+import { validator } from '../middleware/index.js';
+import { APP_URL, APP_PORT, LINE_API_SECRET } from '../config/index.js';
+import '../services/discord.js';
 
-const assistant = new Assistant();
+const lineAssistant = new LineAssistant();
 
 const app = express();
 
-app.use(express.json({
-  verify: (req, res, buf) => {
-    req.rawBody = buf.toString();
-  },
-}));
+app.use(
+  express.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf.toString();
+    },
+  })
+);
 
 app.get('/', (req, res) => {
   if (APP_URL) {
@@ -29,13 +26,13 @@ app.get('/', (req, res) => {
 
 app.post('/webhook', validator(LINE_API_SECRET), async (req, res) => {
   try {
-    await assistant.handleEvents(req.body.events);
+    await lineAssistant.handleEvents(req.body.events);
   } catch (err) {
     console.error(err);
     res.sendStatus(500);
     return;
   }
-  assistant.debug();
+  lineAssistant.debug();
   res.sendStatus(200);
 });
 
@@ -44,3 +41,4 @@ if (APP_PORT) {
 }
 
 export default app;
+

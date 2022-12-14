@@ -1,9 +1,5 @@
-import {
-  PARTICIPANT_AI,
-} from '../services/openai.js';
-import {
-  OPENAI_COMPLETION_INIT_LANG,
-} from '../config/index.js';
+import { PARTICIPANT_AI } from '../services/openai.js';
+import { OPENAI_COMPLETION_INIT_LANG } from '../config/index.js';
 
 const LANGUAGES = {
   zh: '哈囉！',
@@ -27,8 +23,9 @@ class Prompt {
   }
 
   toString() {
-    return this.lines.map((line) => `${line}\n`).join('');
+    return this.lines.map(line => `${line}\n`).join('');
   }
 }
 
 export default Prompt;
+
