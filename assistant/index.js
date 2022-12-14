@@ -1,4 +1,5 @@
-import Assistant from './assistant.js';
+import LineAssistant from './services/line.js';
+import DiscordAssistant from './services/discord.js';
 
-export default Assistant;
+export { LineAssistant, DiscordAssistant };
 

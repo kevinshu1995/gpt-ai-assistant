@@ -21,9 +21,12 @@ class Storage {
 
   toString() {
     return Array.from(this.prompts)
-      .map(([id, prompt]) => `=== ${id.slice(0, 6)} ===\n\n${prompt.toString()}`)
+      .map(
+        ([id, prompt]) => `=== ${id.slice(0, 6)} ===\n\n${prompt.toString()}`
+      )
       .join('\n');
   }
 }
 
 export default Storage;
+
