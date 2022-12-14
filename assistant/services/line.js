@@ -11,7 +11,7 @@ class LineAssistant extends Assistant {
     if (type !== EVENT_TYPE_MESSAGE) return null;
     if (message.type !== MESSAGE_TYPE_TEXT) return null;
 
-    const response = this.formatEvent({
+    const response = await this.formatEvent({
       replyToken,
       userId: source.userId,
       message,
