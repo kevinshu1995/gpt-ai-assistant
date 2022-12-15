@@ -24,6 +24,10 @@ client.on('messageCreate', async message => {
   try {
     //reply if message has "!" as first character
     if (message.content.substring(0, 1) === '!') {
+      // 打字狀態
+      const channel = client.channels.cache.get(message.channelId);
+      channel.sendTyping();
+
       const prompt = message.content.substring(1);
       const [responseText] = await discordAssistant.handleEvents([
         {
