@@ -1,7 +1,11 @@
 // Require the necessary discord.js classes
-import { Client, Events, GatewayIntentBits } from 'discord.js';
+import { Client, Events, GatewayIntentBits, Collection } from 'discord.js';
 import { DISCORD_BOT_TOKEN, APP_ENV } from '../config/index.js';
 import { DiscordAssistant } from './../assistant/index.js';
+import {
+  bindCommandsToClient,
+  registerCommands,
+} from './discord/commands/index.js';
 
 const discordAssistant = new DiscordAssistant();
 
@@ -14,10 +18,37 @@ const client = new Client({
   ],
 });
 
+client.commands = new Collection();
+
+bindCommandsToClient(client);
+
 // When the client is ready, run this code (only once)
 // We use 'c' for the event parameter to keep it separate from the already defined 'client'
 client.once(Events.ClientReady, c => {
   console.log(`[Discord bot] Ready! Logged in as ${c.user.tag}`);
+  registerCommands(c.application.id);
+});
+
+client.on(Events.InteractionCreate, async interaction => {
+  console.log(interaction.commandName);
+  if (!interaction.isChatInputCommand()) return;
+
+  const command = interaction.client.commands.get(interaction.commandName);
+
+  if (!command) {
+    console.error(`No command matching ${interaction.commandName} was found.`);
+    return;
+  }
+
+  try {
+    await command.execute(interaction);
+  } catch (error) {
+    console.error(error);
+    await interaction.reply({
+      content: 'There was an error while executing this command!',
+      ephemeral: true,
+    });
+  }
 });
 
 client.on('messageCreate', async message => {
