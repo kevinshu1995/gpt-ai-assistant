@@ -2,7 +2,7 @@ import express from 'express';
 import { LineAssistant } from '../assistant/index.js';
 import { validator } from '../middleware/index.js';
 import { APP_URL, APP_PORT, LINE_API_SECRET } from '../config/index.js';
-import '../services/discord.js';
+// import '../services/discord.js';
 
 const lineAssistant = new LineAssistant();
 
